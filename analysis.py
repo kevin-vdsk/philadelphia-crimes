@@ -49,8 +49,8 @@ plt.show()
 '''
 There is clearly a yearly seasonality.
 Do we have stationary data ? For answering that, execute the augmented Dickey-Fuller test that basically tells you that:
-- H0 (null hypothesis): yy is non-stationary, needs to be differenced
-- HA (alternative hypothesis): yy is stationary, doesn't need to be differenced
+- H0 (null hypothesis): time serie is non-stationary and it needs to be differenced
+- HA (alternative hypothesis): time serie is stationary and it does not need to be differenced
 '''
 
 ADF = namedtuple('ADF', 'adf pvalue usedlag nobs critical icbest')    
@@ -101,9 +101,6 @@ periods = 12
 seasonal_first_diff = (h_ts - h_ts.shift(periods)).diff().dropna()
 tsplot(seasonal_first_diff, lags=24)
 plt.show()
-# CONCLUSION: 0 AR term, Add 1 MA term! order = (p,d,q) = (0,1,1)
-# CONCLUSION: trend with time
-# CONCLUSION: 0 SAR , 1 SMA term seasonal_order = (P,D,Q,s)= (0,1,1,12)
 
 adf_test = ADF(*adfuller(seasonal_first_diff))
 print(adf_test.critical)
