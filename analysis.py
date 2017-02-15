@@ -1,12 +1,9 @@
 '''
 I create a SARIMAX model for predicting the number of crimes in Philadelphia.
-
 A good reading on SARIMAX models https://tomaugspurger.github.io/modern-7-timeseries.html
 For more information about statsmodels:
 http://www.statsmodels.org/dev/generated/statsmodels.tsa.statespace.sarimax.SARIMAXResults.html
-
 Important here to note is that I have installed released candidate version 0.8.0rc1 of statsmodels.
-
 Let's start importing needed libraries
 '''
 # Import
@@ -39,6 +36,7 @@ df['Year'] = df['Date'].dt.year
 # Create time serie of counts
 h_ts = df.groupby(['Date']).size()
 print(h_ts.head())
+h_ts.to_csv('count.csv')
 
 '''
 Let's start with a seasonal decomposition.
@@ -50,7 +48,6 @@ plt.show()
 
 '''
 There is clearly a yearly seasonality.
-
 Do we have stationary data ? For answering that, execute the augmented Dickey-Fuller test that basically tells you that:
 - H0 (null hypothesis): yy is non-stationary, needs to be differenced
 - HA (alternative hypothesis): yy is stationary, doesn't need to be differenced
@@ -97,7 +94,6 @@ print(adf_test.adf)
 
 '''
 It is stationary.
-
 Let's compute now the first difference of seasonal difference.
 '''
 
@@ -115,7 +111,6 @@ print(adf_test.adf)
 
 '''
 It is stationary.
-
 Let's fit a model. I want to use only the data up to 2014 for training. Split our data into train and test sets and check it is correctly done.
 '''
 
